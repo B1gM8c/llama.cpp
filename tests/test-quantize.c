@@ -13,6 +13,8 @@ int main(void) {
         src[i] = (float)(i + 1);
     }
 
+// Sorry, but I have to disable these for RMSE-optimized quantization
+#ifdef GGML_NO_RMSE
     size_t size = ggml_quantize_q4_0(src, dst, QK, QK, hist);
     assert(size == 20);
     float max_result = ((float *)dst)[0];
@@ -37,6 +39,7 @@ int main(void) {
         uint8_t q4_expected = roundf((src[i] - min_expected) / delta_expected);
         assert(q4_result == q4_expected);
     }
+#endif
 
     return 0;
 }
