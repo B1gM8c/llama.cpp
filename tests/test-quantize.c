@@ -4,6 +4,9 @@
 #include <math.h>
 
 int main(void) {
+
+// Sorry, but I have to disable these for RMSE-optimized quantization
+#ifdef GGML_NO_RMSE
     #define QK 32
     float src[QK];
     uint8_t dst[24];
@@ -13,8 +16,6 @@ int main(void) {
         src[i] = (float)(i + 1);
     }
 
-// Sorry, but I have to disable these for RMSE-optimized quantization
-#ifdef GGML_NO_RMSE
     size_t size = ggml_quantize_q4_0(src, dst, QK, QK, hist);
     assert(size == 20);
     float max_result = ((float *)dst)[0];
